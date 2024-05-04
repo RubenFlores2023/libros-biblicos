@@ -79,6 +79,54 @@ app.get('/libros/publicacion/:anio', (req, res) => {
     }
 });
 
+// Practica 2 *************
+
+// endpoint 7 Bienvenida
+app.get('/bienvenida', (req, res) => {
+    const nombre = "Ruben Flores Lima";
+    const profesion = "Analisa de Sistemas";
+    res.json('Mi Nombre es: ' + nombre + ' y mi profesion es: ' + profesion);
+});
+
+// endpoint 8 Obertener libros por autor
+app.get('/libros/porautor/:autor', (req, res) => {
+    const autor =  req.params.autor;
+    const librosporautor = librosBiblicos.filter( libro => libro.autor === autor);
+    //res.json(librosporautor);
+    if (librosporautor.length > 0) {
+        res.json(librosporautor);
+    } else {
+        res.status(404).json({mensaje : 'no se han encontrado libros del autor: ' + autor});
+    }
+});
+
+// endpoint 9 Cantidad de libros
+app.get('/totallibros', (req, res) => {
+    const totalLibros = librosBiblicos.length;
+    res.send(`El total de libros es: ${totalLibros}`);
+});
+
+// endpoint 10 Obertener libros por nombre
+app.get('/libros/pornombre/:nombre', (req, res) => {
+    const nombre =  req.params.nombre;
+    const libropornombre = librosBiblicos.filter( libro => libro.nombre === nombre);
+    //res.json(librosporautor);
+    if (libropornombre.length > 0) {
+        res.json(libropornombre);
+    } else {
+        res.status(404).json({mensaje : 'no se han encontrado libros con el nombre: ' + nombre});
+    }
+});
+
+// endpoint 11 Ordenar los libros por nombre
+app.get('/libros/sort/nombre', (req, res) => {
+    const librosOrdenados = librosBiblicos.slice().sort((a, b) => a.nombre.localeCompare(b.nombre));
+    res.json(librosOrdenados);
+});
+
+
+
+
 app.listen(PORT, () => {
     console.log("Servidor corriendo en el puerto http://localhost:" + PORT);
 });
